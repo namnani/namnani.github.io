@@ -1,0 +1,33 @@
+---
+layout: post
+title:  "TIL2"
+date:   2019-01-03 17:56:59
+author: Namnani
+categories: TIL
+tags: TIL Java
+---
+### 1. 자바에서는 매개변수가 없는 디폴트 생성자를 만들어준다.
+그러나, 생성자를 하나 만드는 순간, 이 매개변수가 없는 디폴트 생성자를 자동으로 만들어주는 것을 지원하지 않는다.
+
+### 2. this constructor를 통해서 이미 만들어져있는 생성자를 이용해서 setter 사용의 수를 줄일 수 있다.
+
+
+
+##### 자바 기본 상식
+1. 모든 클래스는 자동으로 Object 클래스를 상속받는다. 즉, 컴파일러가 자동으로 extends Object를 붙여주는 것임.
+
+2. Overriding - 상속받은 것을 재정의
+
+3. Overloading - 메소드 중복 정의
+
+4. 객체를 print시켜주면 자동으로 toString()을 불러준다.
+
+5. 이차원배열을 만들때 c에서는 행부분이 생략할수있고, java에서는 열부분이 생략할 수 있다.
+
+--
+
+eclipse 명령어
+
+ctrl + alt + 방향키 : 코드 이동
+
+alt + 방향키 : 복제

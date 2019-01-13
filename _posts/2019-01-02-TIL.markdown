@@ -1,0 +1,36 @@
+---
+layout: post
+title:  "TIL1"
+date:   2019-01-02 17:52:59
+author: Namnani
+categories: TIL
+tags: TIL Java
+---
+
+## 플랫폼 : 하드웨어 + 소프트웨어
+
+## 프레임워크 : 반제품, 서버쪽 프로그램 실행을 쉽게하는,
+
+- Java가 c나 c++보다 배우기 쉽다.
+- 환경변수설정 path는 가급적 앞쪽에 잡아주는게 좋다. 우선순위때문에.
+- 집에 Eclipse 깔때는, UTF-8 캐릭터셋 맞추는게 가장 중요하다. 아니면 이클립스폴더자체를 압축해서 가져가거나.
+
+### Java에서 static : 객체를 생성하지 않고 사용하게 함.
+
+
+
+#### Eclipse 단축키 : ctrl+shift+/, ctrl+shift+\  <- 여러 줄 주석 생성, 여러 줄 주석 해제
+
+- 자바에서 기본데이터 타입 8개를 비교할때는 == 를 사용하고,객체를 비교할때는 .euqls()를 사용한다.
+- String s = "A";
+  s=="A"가 true가 나오는이유는 저렇게 해줘서다 new String("A")해주면 false가 나온다.
+- byte > short > int > long > float > double
+
+
+
+- long은 64비트, float는 32비트인데 왜 float가 표현할 수 있는 범위가 더 클까?
+  => 데이터타입이 표현할 수 있는 범위다 라고 보면된다. 비트 크기가 중요한게 아니고.
+  cf) 구글에서 데이터타입의 범위에 대한 검색
+- char > int > long > float > double
+- byte랑 short와 char는 관계가 없다 한다!!
+- byte, short, char 타입의 이항연산 결과는 int이다.
