@@ -3,7 +3,7 @@ layout: post
 title:  "Design Thinking"
 date:   2018-12-27 16:13:00
 author: Namnani
-categories: Dummy
+categories: etc
 tags: Design Thinking
 ---
 

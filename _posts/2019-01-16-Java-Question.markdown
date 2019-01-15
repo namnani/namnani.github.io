@@ -3,8 +3,8 @@ layout: post
 title:  "Java 의문사항 정리"
 date:   2019-01-16 05:20:59 +0900
 author: Namnani
-categories: TIL
-tags: TIL Java
+categories: Java_Question
+tags: Java Question
 ---
 ---
 #### 1. 왜 항상 hashCode와 equals 메소드를 같이 재정의해야하는가?
