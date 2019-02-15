@@ -7,11 +7,14 @@
 - 지역 변수는 함수가 실행될 때 생성되고 함수가 종료될 때 사라진다라는 규칙을 위반할 수 있다.
 
 ```
-function test(name){
+<script type="text/javascript">
+	function test(name){
 		var output = 'Hello ' + name + ' .. !';
 		
 		return function(){
 			alert(output);
 		};
 	}
+	test('abc')();
+</script>
 ```
