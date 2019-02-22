@@ -16,4 +16,4 @@
 - 0.0은 투명한 상태를, 1.0은 불투명한 상태를 나타냄.
 
 6. 박스 속성
-![CSS 박스 모델 속성](/images/css_box_model_property.jpg)
+![CSS 박스 모델 속성](/images/css_box_model_property.png)
