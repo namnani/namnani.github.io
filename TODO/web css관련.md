@@ -10,3 +10,7 @@
 4. display 속성과 visibility 속성의 차이
 - display : none;은 화면에서 제거된다.
 - visibility : hidden; 은 화면에서 보이지 않을뿐이다.
+
+5. opacity 속성
+- 태그의 투명도를 조절하는 스타일 속성.
+- 0.0은 투명한 상태를, 1.0은 불투명한 상태를 나타냄.
