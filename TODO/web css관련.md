@@ -17,3 +17,6 @@
 
 6. 박스 속성
 ![CSS 박스 모델 속성](/images/css_box_model_property.PNG)
+
+7. html 레이아웃 열분할해서 만들어주는 사이트
+http://www.pagecolumn.com/3_column_div_generator.htm
