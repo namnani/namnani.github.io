@@ -6,3 +6,7 @@
 
 3. HEX 코드 단위로 색상 추출
 - http://www.colorpicker.com
+
+4. display 속성과 visibility 속성의 차이
+- display : none;은 화면에서 제거된다.
+- visibility : hidden; 은 화면에서 보이지 않을뿐이다.
