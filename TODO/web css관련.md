@@ -29,3 +29,6 @@
 
 10. 여러 CSS3 자동 생성 사이트
 - www.css3generator.com
+
+11. 벤더 프리픽스(vendor prefix)
+- 각 브라우저에서 판독이 가능한 접두어를 붙여서 해당 브라우저에서 
