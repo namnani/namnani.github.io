@@ -20,3 +20,6 @@
 
 7. html 레이아웃 열분할해서 만들어주는 사이트
 - http://www.pagecolumn.com/3_column_div_generator.htm
+
+8. float 속성을 사용한 레이아웃 구성
+- 자손에 float 속성을 적용하면 부모의 overflow 속성에 hidden 키워드를 적용합니다.
