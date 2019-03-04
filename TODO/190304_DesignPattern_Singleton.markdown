@@ -10,20 +10,22 @@
 ex) private static Printer printer = new Printer();
 
 2. 인스턴스를 만드는 메서드에 동기화하는 방법.
+```
 ex) public synchronized static Priner getPrinter(){
  if(printer == null){
   printer = new Printer();
  }
  return printer;
 }
-
+```
+```
 ex) public void print(String str){
  synchronized(this){
   counter++;
   System.out.println(str + counter);
  }
 }
-
+```
 # etc
 - 굳이 싱글턴 패턴을 사용하지 않고 정적 메서드로만 이루어진 정적 클래스(static class)를 사용해도 동일한 효과를 얻을 수 있다.
 - 그러나 정적 메서드는 인터페이스에서 사용할 수 없다.
