@@ -1,7 +1,7 @@
 # SOLID 원칙    
 
 ## 1. Single Responsibility Principle (SRP, 단일 책임 원칙)   
-- 하나의 클래스는 단 하나의 책임만을 가져야 한다.   
+- 하나의 클래스는 단 하나의 책임만을 가져야 한다.    
 
 ## 2. Open-Closed Principle(OCP, 개방-폐쇄 원칙)
 - 기존의 코드는 변경하지 않으면서 기능을 추가할 수 있도록 설계.
