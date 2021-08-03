@@ -8,7 +8,7 @@ tags: pype, python, boost-course
 ---
 ---
 
-# Q1.
+# Q1. 구구단, 홀수번째 출력, 값이 50이하인 것만 출력.
 ```python
 def checkInput(number) : #check validity
     while True:
@@ -43,7 +43,7 @@ number = input("Which order do you want to calculate the multiplication table? "
 calMult(checkInput(number))
 ```
 
-# Q2
+# Q2. 가위바위보 업그레이드 버전.(함수 버전, 게임을 몇판 진행할지 입력, 다르 입력 시 재입력, 게임종료 후 총 전적 출력)
 ```python
 import random  # import to use random function
 
@@ -149,4 +149,75 @@ for i in range(1,games+1):
 print("-----------------------------Total score----------------------------")
 print('My record:',w,'win',d,'draw',l,'lose')
 print("Com's record:",l,'win',d,'draw',w,'lose')
+```
+
+# Q3. 2개의 숫자를 입력받아, 그 사이 짝수만 출력. (중앙값이 짝수가 아닐 시는 출력 X)
+```python
+print('짝수의 개수를 확인하고픈 범위를 알려주세요!')
+n=int(input('확인하고 싶은 범위의 첫 번재 수 입력해주세요: '))
+m=int(input('확인하고 싶은 범위의 마지막 수 입력해주세요: '))
+b=0
+numbers=[h for h in range(n,m+1)]
+count = len(numbers)
+if count % 2 == 0: # 짝수인 경우,
+    mid = ( numbers[int(count/2-1)] + numbers[int(count/2)] ) / 2
+else: # 홀수인 경우.
+    mid = numbers[int(count/2)]
+for h in numbers:
+    if h%2==0:
+        if h == mid:
+            print('알려주신 범위 내에는',h,'라는 짝수이자 중앙값이 있네요')
+        else:
+            print('알려주신 범위 내에는',h,'라는 짝수가 있네요')
+        b=b+1
+print('Done!')
+print('총',b,'개의 짝수가 있습니다')
+```
+
+# Q4. 2개의 숫자를 입력받아, 그 사이 소수가 몇개인지 출력하는 함수.
+```python
+def count_prime_number(n, m):
+    prime_count = 0;
+
+    # n보다 m이 크거나 같도록 switching.
+    if n > m:
+        temp = n
+        n = m
+        m = temp
+
+    while n <= m:
+        prime_case_variable = 0 # 밑에 while문을 돌고 나왔을 때, 이 값이 2라면, 소수인 것!
+        currentValue = 1
+
+        while currentValue <= n:
+            if prime_case_variable == 2: # while문을 돌고 있는데, 이 값이 2라는 건, 이미 소수가 아니라는 것 임.
+                break
+            if n % currentValue == 0: # 나누어 진다는 소리임.
+                prime_case_variable = prime_case_variable + 1
+
+            currentValue = currentValue + 1 # 다음 반복문을 위한, variable setting.
+
+        if currentValue > n: # break를 안타고, while문을 다 돌았으면(소수라면), currentValue 값이 n보다 무조건 크다.
+            if prime_case_variable == 2: # while문을 돌고 나왔는데, 이 값이 2라면, 소수인 걸로 n을 소수로 count 해줘도 됨!
+                prime_count = prime_count + 1
+
+        n = n + 1 # 다음 반복문을 돌기 위한, variable setting.
+
+    return prime_count
+
+if __name__ == "__main__":
+    while True:
+        try:
+            # 입력
+            n = int(input("첫 번째 수 입력 : "))
+            m = int(input("두 번째 수 입력 : "))
+            break
+        except:
+            print("아마 int형이 아닌 값을 입력하셨을 겁니다.\n다시 입력해주세요.")
+
+    count = count_prime_number(n, m)
+
+    # 출력
+    print("소수개수 :", count)
+
 ```
