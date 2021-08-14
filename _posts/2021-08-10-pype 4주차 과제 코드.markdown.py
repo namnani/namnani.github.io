@@ -1,0 +1,267 @@
+---
+layout: post
+title:  "pype 4주차 과제 코드"
+date:   2021-08-10 14:20:59 +0900
+author: Namnani
+categories: pype, python, boost-course
+tags: pype, python, boost-course
+---
+---
+
+# Q1. 숫자 3자리마다 , 를 찍어서 구분. 파이썬에서는 아래와 같이 쉽게 가능.
+- f"{숫자:,}"
+- print(f"{1000:,}")
+```python
+def make_comma(num):
+    try:
+        num=int(num)
+        print('----------처리중----------')
+    except:
+        print('숫자로 입력하셨는지 확인하시고 프로그램을 다시 시작해주세요!')
+        make_comma(input('Comma를 넣을 숫자를 입력하세요!: '))
+        return
+        # exit()
+        # 만약 여기서, exit() 을 할게 아니고, 다시 숫자 입력 단계로 바로 넘어갈 수 있다면 좋을 것 같습니다.
+
+    num=str(num)
+    need_comma=len(num)//3
+    rest=len(num)%3
+    # 필요한 comma 개수는 숫자 길이를 3으로 나눈 몫(나머지가 1 또는 2인 경우)이거나 몫-1(나머지가 0인 경우). 그리고 그 나머지로 comma가 들어갈 위치가 달라지므로 나머지도 구해야 함.
+
+    #print(need_comma, rest) 잘 작동함.
+
+    if rest==0:
+        for i in range(need_comma):
+            if i==0:
+                new_number=num
+            else:
+                new_number=new_number[:(3*i)+(i-1)]+','
+                new_number=new_number+num[(3*i):]
+
+    elif rest==1:
+        for j in range(need_comma+1):
+            if j==0:
+                new_number=num
+            else:
+                new_number=new_number[:(3*j-2)+(j-1)]+','
+                new_number=new_number+num[(3*j-2):]
+
+    elif rest==2:
+        for k in range(need_comma+1):
+            if k==0:
+                new_number=num
+            else:
+                new_number=new_number[:(3*k-1)+(k-1)]+','
+                new_number=new_number+num[(3*k-1):]
+
+    print('Comma를 추가한 결과는 다음과 같습니다!')
+    print(new_number)
+
+# print(type(number)) input으로 했으니 str이 나온다. 이를 숫자로 제대로 입력했는지 아닌지 확인이 필요하기 때문에 int로 바꿔서 try해 볼 것. 나중에 comma를 넣을 때에는 다시 str으로 바꾸고 comma 추가.
+# => 처리 완료.
+make_comma(input('Comma를 넣을 숫자를 입력하세요!: '))
+```
+
+# Q2. 파일 안에, 특정 글자가 몇개 존재하는지 확인.
+```python
+# 2021.08.10. Tuesday. 23:40.
+
+# 시간관계상, 정답코드를 참고하였습니다만.. 머리가 굳어있는 제가 처음에 생각하기에는 어려운 논리네요 ㅠㅠ.
+# 그래도 확실한건, 정답 예시 코드의 논리를 이해해두면, 도움은 될 것 같습니다!
+# 제가, 만약 제대로 풀 시간이 있었다면,
+# 저는, line.find해서, 문자열을 찾고, 해당 인덱스에서 길이 만큼까지의 문자열을 날리고,
+# 같은 라인의 이후에서도, line.find의 결과로 -1 이 있는게 아닌지 하는 식으로 count를 단순 무식하게 했을 것 같은데요..
+# 혹시 그렇게 풀면 이슈가 있을지, 생각나는게 있으면 말씀 부탁드립니다!
+
+
+def count_word(text, word):
+    # 문자열을 텍스트 파일로 저장
+    text_save = open("text.txt", "w", encoding="UTF8")
+    text_save.write(text)
+    text_save.close()
+
+    count = 0  # word를 세는 변수
+    word_save = ""  # 문자의 길이만큼만 저장
+
+    f_1 = open("text.txt")  # 텍스트 파일 읽어오기
+    for line in f_1:  # 한 줄씩 불러오기
+        if word in line:  # 우리가 찾는 문자가 현재 문장에 있다면
+            for s in line:
+                word_save = word_save + s  # 한 글자씩 word_save에 저장
+                if word_save == word:  # word_save와 word를 비교해서 같으면
+                    count += 1  # count +1
+                if len(word_save) == len(word):  # 다음 문자 저장을 위해 1칸씩 앞으로 이동
+                    word_save = word_save[1:]
+
+    print("파일에 '" + word + "' 문자가 얼마나 있냐면은요!")
+    print(str(count)+"개")  # word수 출력
+
+
+if __name__ == '__main__':
+    input_str = """
+    울랄울랄라
+    파이썬은, 신기하면서도, 이상한 언어 같아요아요.
+    이번 학습을 통해,
+    프로그래밍 입문자가, 파이썬으로 시작을 하는 이유에 대해서 충분히 납득이 되었고,
+    프로그래밍 알고리즘 문제를 풀 때 확실히 유리한 문법들이 보이는 거 같네요.
+    그렇지만, 아직도, 파이썬의 문법에서 배워야 할 게 많이 남아 있는 거 같아요.
+    생각해보면, 자바는, 너무 코드가 주절주절 길어서, 가독성이 떨어진다 생각했었는데,
+    파이썬은 오히려 너무 간결해서, 자바보다도 가독성이 더 떨어지는 거 같네요...
+    아무튼, 새로운 언어를 배운다는 건 재밌는 것 같아요.
+    열정있는 팀원분들과 함께해서 리프레쉬되고 자극도 많이 받네요!
+    울랄울랄라울랄라
+    """
+
+    count_word(input_str, "울랄라")
+```
+
+# Q3. 아래와 같은 방명록이 있을 때 방명록을 잘 못쓴 사람의 이름과 잘 못된 번호를 출력하는 함수를 만들어 봅시다.
+```
+김갑,123456789
+이을,010-1234-5678
+박병,010-5678-111
+최정,111-1111-1111
+정무,010-3333-3333
+```
+
+- 함수에 방명록을 넣으면 txt 파일로 저장되게 해줍니다.
+- 제대로 적은 방명록의 조건은 다음과 같습니다
+- 010 으로 시작함
+- 번호가 - 로 구분이 되어 있음
+- -를 포함하여 길이가 13임
+
+```python
+# function: saving raw information from guest book
+def raw_guest_book(guest_book):
+    try:
+        raw_file = open("guest_book.txt","a", encoding="UTF8")
+    except:
+        raw_file = open("guest_book.txt","w", encoding="UTF8")
+    raw_file.write(guest_book+"\n")
+    raw_file.close()
+
+#main command
+#input one by one until 'done'
+while True:
+    raw = input("Insert raw guest book's information by lines(Name,Phone no).\nWhen it is done insert 'done':")
+    if raw == 'done' or raw == 'DONE':
+        break
+    else:
+        raw_guest_book(raw)
+
+# open task file
+task_file = open("guest_book.txt","r",encoding="UTF8")
+# show task file to user
+contents=task_file.read()
+print("\nBelow list is what you wrote on the file.")
+print("-----Raw records of the guest book-----")
+print(contents)
+print("---------------------------------------")
+
+# find wrong record
+task_file = open("guest_book.txt","r",encoding="UTF8")
+for line in task_file:
+    pos = line.find(",") # find ',' position
+    # seperate name and phone number
+    name = line[:pos]
+    phone = line[pos+1:].strip()
+    # When the record matches with the conditions, skip to the next loop.
+    if len(phone) == 13 and phone.find("-",3,7) == 3 and phone.find("-",8) == 8 and phone.startswith("010") ==True:
+        continue
+    # If the record does not match with the conditions, print out the name of wrong recorder and the wrong phone number.
+    else:
+        print(f"Person who wrote wrong phone no.: {name}")
+        print(f"The wrong phone no.: {phone}")
+        print()
+```
+
+# Q4. 주민등록번호의 앞 6자리는 생년월일이고 뒷자리의 시작번호는 성별을 나타냅니다. 주민등록번호를 입력하면 몇년 몇월 생인지 그리고 남자인지 여자인지 출력하는 함수를 만들어 봅시다.
+```
+주민등록번호는 6자리 이후에 -로 구분되어야 하고 길이는 -포함 14임
+뒷자리는 1,3 은 남자 2,4는 여자
+00 ~ 21로 시작할 경우 2000년 이후 출생자인지 물어 볼 것 (맞으면 o 틀리면 x)
+뒷자리 3, 4를 가질 수 있는 사람은 00년생 이후 출생자 밖에 없음
+
+주민등록번호 조건을 만족하지 않는 수가 입력되면 "잘 못된 번호입니다"를 출력해주세요.
+
+🔽출력 예시
+
+a = "500629-2222222"
+check_id(a)
+50년06월 여자
+
+a = "000629-2222222"
+check_id(a)
+2000년 이후 출생자 입니까? 맞으면 o 아니면 x : o
+잘못된 번호입니다.
+올바른 번호를 넣어주세요
+
+a = "000629-2222222"
+check_id(a)
+2000년 이후 출생자 입니까? 맞으면 o 아니면 x : x
+00년06월 여자
+```
+
+```python
+def check_id(number):
+    if len(number) != 14 or number.find("-") == -1 or number[6:7] != "-":  # validity check
+        if (len(number) != 14 or number.find("-") == -1):
+            print("Invaild input format! Please check the numbers (ex. 000000-0000000).")
+        if (number[6:7] != "-"):
+            print("Invaild input format! Please check the format (ex. 000000-0000000).")
+        return runProcess()
+
+    else:
+        # Extract values
+        year = str(number[:2])
+        month = str(number[2:4])
+        day = str(number[4:6])
+        gender = str(number[7:8])
+        s_gender = "None"
+
+        flag = check_year(year, gender)  # check year
+
+        if flag != False:
+            # Check validity
+            if gender in ["1", "3"]:
+                s_gender = "Man"
+            elif gender in ["2", "4"]:
+                s_gender = "Woman"
+            else:
+                print("Invaild input! Please check the gender number.")
+                return runProcess()
+
+            return year, month, day, s_gender
+        else:
+            exit()
+
+
+def check_year(year, gender):
+    if (int(year) <= 21 & int(year) >= 0):
+        q = input("Were you born after 2000? Yes(o) No(x) : ")
+        if q == "o":  # born in 2000 ~ 2021
+            if gender not in ["3", "4"]:
+                print("Check the input! born year or gender number")
+                return False
+        elif q == "x":  # born in 1900 ~ 1921
+            if gender not in ["1", "2"]:
+                print("Check the input! born year or gender number")
+                return False
+        else:
+            print("Check the response! (o or x)")
+            check_year(year, gender)
+    else:
+        if gender not in ["1", "2"]:
+            print("Check the input! born year or gender number")
+            return False
+
+
+def runProcess():
+    number = input("Enter your resident registration number : ")
+    return check_id(number)
+
+
+# ---main---
+year, month, day, gender = runProcess()
+print(f"Bitrh : {year}.{month}.{day}, Gender : {gender}")
+```
