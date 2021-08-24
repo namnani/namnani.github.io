@@ -1,0 +1,302 @@
+---
+layout: post
+title:  "pype 6주차 과제 코드"
+date:   2021-08-24 14:20:59 +0900
+author: Namnani
+categories: pype, python, boost-course
+tags: pype, python, boost-course
+---
+---
+
+# Q1. 베스킨31 게임.
+- 조건1 - 나의 턴에서는 숫자를 직접 입력하며 한 번 입력 후에 space 한 번으로 구분  
+Ex)  
+my = input("My turn - 숫자를 입력하세요: ")  
+1 2 3
+- 조건2 - 나와 컴퓨터 모두 한 턴에 1회 ~ 3회까지만 숫자를 외칠 수 있음
+- 조건3 - 외쳐진 숫자보다 1큰 수만 외칠수 있음 (ex: 5 다음엔 무조건 6)  
+위 조건이 안맞을 경우 다시 입력
+```python
+import random
+
+gameNumber = 31  # define the game number
+
+
+def doGameBR():
+    ref = [i + 1 for i in range(gameNumber)]  # reference list
+    number = 0  # init for game flag
+    print(f"Baskin Robbins {gameNumber}!\nInsert the numbers")
+
+    while True:
+        human = input("My turn : ")
+        human = list(map(int, human.split()))  # list of human's input as type of int
+        if checkInput(human, number) == False:  # check the validity for input
+            continue
+        number = human[-1]  # get a game flag
+        if number < ref[-1]:
+            del ref[:len(human)]  # reduce the reference list
+        print(f"------------ Current number : {number} ------------")
+
+        if number >= ref[-1]:  # loose flag
+            print("\nYou loose!")
+            break
+
+        len_computer = random.randint(1, 3)
+        if ref[0] == gameNumber:  # win case
+            print(f"Computer : {ref[0]}")
+            print("\nYou win!")  # win flag
+            break
+        elif len(ref) <= 4:  # forcee loose case
+            for i in range(len(ref) - 1):
+                print(f"Computer : {ref[i]}")
+            del ref[:len(ref) - 1]  # reduce the reference list
+            number = ref[0] - 1  # get a game flag
+        elif len_computer < len(ref) and ref[-1] == gameNumber:  # nomal process
+            for i in range(len_computer):
+                print(f"Computer : {ref[i]}")
+            del ref[:len_computer]  # reduce the reference list
+            number = ref[0] - 1  # get a game flag
+        print(f"------------ Current number : {number} ------------")
+
+        # print(ref)
+
+
+def checkInput(my, number):
+    if int(my[0]) != number + 1 or len(my) > 3:
+        print("Please check your input is correct or not")
+        return False
+    if len(my) == 2 and (int(my[1]) - int(my[0]) != 1):
+        print("Please enter the consecutive numbers")
+        return False
+    if len(my) == 3 and (int(my[2]) - int(my[1]) != 1 or int(my[1]) - int(my[0]) != 1):
+        print("Please enter the consecutive numbers")
+        return False
+    return True
+
+
+doGameBR()
+```
+
+# Q2. 파일 안에, 특정 글자가 몇개 존재하는지 확인.
+```python
+# Score check function
+def score_check(std):
+    correct = 0
+    a = [3,2,4,2,5,2,4,3,1,2]
+    # split name and answers
+    name_ans = std.split(",")
+    name = str(name_ans[0])
+    ans = str(name_ans[1])
+    # calculate the numbers of correct answer.
+    for i in range(len(ans)):
+        if ans[i] == str(a[i]):
+            correct = correct + 1
+        else:
+            continue
+    # Make scores
+    score = correct * 10
+    # return name and result
+    return name, score
+
+# ============= Main ===============
+s =  ["김갑,3242524215","이을,3242524223","박병,2242554131","최정,4245242315","정무,3242524315"]
+names = []
+scores = []
+# make lists of names and scores each.
+for std in s:
+    iname,iscore = score_check(std)
+    names.append(iname)
+    scores.append(iscore)
+# combine score with name
+for i in range(len(names)):
+    names[i] = str(scores[i])+names[i]
+# sort in descending order by scores
+names.sort(reverse=True)
+
+# print out one by one
+for i in range(len(names)):
+    print(f"Std. name: {names[i][2:]} score: {names[i][:2]} rank: {i+1}")
+```
+
+# Q3. 아래와 같은 방명록이 있을 때 방명록을 잘 못쓴 사람의 이름과 잘 못된 번호를 출력하는 함수를 만들어 봅시다.
+```python
+import random
+
+if __name__ == '__main__':
+    list = []
+    while len(list) != 3:
+        number = random.randint(0, 100)
+        duplicate_state = False
+        for value in list:
+            if value == number:
+                duplicate_state = True
+                break
+        if not duplicate_state: # 중복되지 않았으면, 추가
+            list.append(number)
+
+    list.sort() # 오름차순 정렬.
+    count = 0 # 반복문을 위한 반복 변수
+    solve = 0 # 유저가 몇개나 맞혔는지 확인을 위한 변수.
+    visit_dictionary = {} # 기선택한 숫자를 또 선택하진 않는지 체크하는 hash map.
+
+    while True:
+        count = count + 1
+        print("\n### " + str(count) + "차 시도 ###")
+        # 유저 입력을 위한 while문.
+        while True:
+            try:
+                user_input = int(input("숫자를 예측해보세요 : "))
+                if user_input < 0 or user_input > 100:
+                    raise Exception("invalid value")
+                break
+            except:
+                print("0부터 100까지 숫자만 입력해주세요.")
+
+
+        # 기선택된 숫자인지 체크.
+        if visit_dictionary.get(user_input):
+            print("이미 예측에 사용한 숫자입니다.")
+            count = count - 1 # 시도 횟수에 포함하지 않기 위해 -1
+            continue
+
+
+        # 정답인지 체크하는 로직.
+        if user_input in list:
+            if user_input == list[0]:
+                temp_str = "최솟값입니다."
+            elif user_input == list[1]:
+                temp_str = "중간값입니다."
+            elif user_input == list[2]:
+                temp_str = "최댓값입니다."
+
+            print("숫자를 맞추셨습니다!", str(user_input) + "은/는", temp_str)
+
+            solve = solve + 1
+            if solve == 3:
+                print("축하드립니다. 다 맞추셨네요. 게임종료!")
+                print(str(count) + "번 시도만에 예측 성공!")
+                break
+
+        # 정답이 아닐 때 출력.
+        else:
+            print(str(user_input) + "은/는 없습니다.")
+
+
+        # 정답이든 아니든, 기선택된 숫자임을 기록.
+        visit_dictionary[user_input] = user_input
+
+
+        # 5번, 10번째 입력 받았을 때 힌트를 주기 위한 부분.
+        if count == 5:
+            if not visit_dictionary.get(list[0]):
+                print("hint: 최소값은", list[0], "입니다.")
+            elif not visit_dictionary.get(list[2]):
+                print("hint: 최댓값은", list[2], "입니다.")
+            else:
+                print("힘내보세요. 최솟값과 최댓값을 이미 아시잖아요!")
+        elif count == 10:
+            if not visit_dictionary.get(list[2]):
+                print("hint: 최댓값은", list[2], "입니다.")
+            else:
+                print("힘내보세요. 최솟값과 최댓값을 이미 아시잖아요!")
+```
+
+# Q4. 주민등록번호의 앞 6자리는 생년월일이고 뒷자리의 시작번호는 성별을 나타냅니다. 주민등록번호를 입력하면 몇년 몇월 생인지 그리고 남자인지 여자인지 출력하는 함수를 만들어 봅시다.
+```python
+print('100일 계산기에 오신 걸 환영합니다!\n사용 방법은 다음과 같습니다.\n2021년 1월 1일이 커플이 되신 날짜라면, 2021, 1, 1을 질문에 맞춰 입력해주시면 됩니다.\n')
+couple_year=input('커플이 된 년도는(숫자만 입력)?: ')
+couple_month=input('커플이 된 월은(숫자만 입력)?: ')
+couple_day=input('커플이 된 일은(숫자만 입력)?: ')
+month_days=[31,28,31,30,31,30,31,31,30,31,30,31]
+# 월별 일 수를 정리.
+# 100일 후, 월은 3개월이나 4개월 증가한다. 그리고 정확한 일과 년도는 1일이 몇월 몇일에 있는지에 영향을 받는다. 그러므로 경우의 수를 나눠야 한다.
+# 우선 1일과 100일의 년도가 같은 경우와 달라질 수도 있는 경우를 나눈다.
+idx=int(couple_month)-1 # month_days list에서 인덱스값을 활용할 것이라 idx로 준비.
+# print(idx) 여기까지 문제 없음.
+# print(type(idx)) 여기까지 문제 없음.
+
+if idx<=7: #1일이 9월 전에 있으면 1일과 100일의 년도는 바뀔 일이 없다.
+    twomonth=sum(month_days[idx+1:idx+3]) # 3개월이 증가하든 4개월이 증가하든 1일의 다음 두 달은 확실하게 증가하니 우선 수치를 확보.
+    # print(twomonth) 여기까지 문제 없음.
+    # print(type(twomonth)) 여기까지 문제 없음.
+    addmonth=twomonth+month_days[idx]-int(couple_day)+1 # 확보한 2개월 치에 1일이 포함된 달에 1일 이후의 날들을 더해준다.
+    # print(addmonth) 여기까지 문제 없음.
+    # print(type(addmonth)) 문제 없음.
+    adddays=100-addmonth # 이렇게 하면 100일이 속한 달에 며칠이 지나야 100일이 되는지 알 수 있다.
+    # print(type(adddays)) 문제 없음.
+    # print(adddays) 여기까지 문제 없음.
+    # 만약 adddays가 1일이 속한 달에서 3개월 증가한 달의 총 일수보다 높다면 100일이 속한 달은 1일이 속한 달에 4개월 증가한 달이다.
+    if adddays>month_days[idx+3]:
+        onehundreddays=adddays-month_days[idx+3]
+        onehundredmonth=int(couple_month)+4
+        onehundredyear=int(couple_year)
+    else:
+        onehundreddays=adddays
+        onehundredmonth=int(couple_month)+3
+        onehundredyear=int(couple_year)
+elif idx==8: # 1일이 9월에 있으면 1일과 100일의 년도는 바뀔 수도 있다.
+    twomonth=sum(month_days[idx+1:idx+3]) # 3개월이 증가하든 4개월이 증가하든 1일의 다음 두 달은 확실하게 증가하니 우선 수치를 확보.
+    # print(twomonth) 여기까지 문제 없음
+    addmonth=twomonth+month_days[idx]-int(couple_day)+1 # 확보한 2개월 치에 1일이 포함된 달에 1일 이후의 날들을 더해준다.
+    # print(addmonth) 여기까지 문제 없음
+    adddays=100-addmonth # 이렇게 하면 100일이 속한 달에 며칠이 지나야 100일이 되는지 알 수 있다.
+    # print(adddays) 여기까지 문제 없음
+    # 만약 adddays가 1일이 속한 달에서 3개월 증가한 달의 총 일수보다 높다면 100일이 속한 달은 1일이 속한 달에 4개월 증가한 달이다. 이 경우에는 1일과 100일의 년도가 바뀐다.
+    if adddays>month_days[idx+3]:
+        onehundreddays=adddays-month_days[idx+3]
+        onehundredmonth=int(couple_month)+4-12 # 연도가 바뀌니 다시 1월부터 시작해야 하기에 12를 빼준다.
+        onehundredyear=int(couple_year)+1
+    else:
+        onehundreddays=adddays
+        onehundredmonth=int(couple_month)+3
+        onehundredyear=int(couple_year)
+elif idx==9: # 1일이 10월 이후에 있으면 1일과 100일의 년도는 무조건 바뀐다.
+    twomonth=sum(month_days[idx+1:]) # 3개월이 증가하든 4개월이 증가하든 1일의 다음 두 달은 확실하게 증가하니 우선 수치를 확보.
+    # print(twomonth) 문제 없음
+    addmonth=twomonth+month_days[idx]-int(couple_day)+1 # 확보한 2개월 치에 1일이 포함된 달에 1일 이후의 날들을 더해준다.
+    # print(addmonth) 문제 없음
+    adddays=100-addmonth # 이렇게 하면 100일이 속한 달에 며칠이 지나야 100일이 되는지 알 수 있다.
+    # print(adddays) 문제 없음
+    # 만약 adddays가 1일이 속한 달에서 3개월 증가한 달의 총 일수보다 높다면 100일이 속한 달은 1일이 속한 달에 4개월 증가한 달이다. 이 경우에는 1일과 100일의 년도가 바뀐다.
+    if adddays>month_days[idx+3-12]:
+        onehundreddays=adddays-month_days[idx+3-12]
+        onehundredmonth=int(couple_month)+4-12 # 연도가 바뀌니 다시 1월부터 시작하기 위해 12를 빼준다.
+        onehundredyear=int(couple_year)+1
+    else:
+        onehundreddays=adddays
+        onehundredmonth=int(couple_month)+3-12 # 연도가 바뀌니 다시 1월부터 시작하기 위해 12를 빼준다.
+        onehundredyear=int(couple_year)+1
+elif idx==10:
+    twomonth=sum(month_days[idx+1:])+month_days[0] # 3개월이 증가하든 4개월이 증가하든 1일의 다음 두 달은 확실하게 증가하니 우선 수치를 확보.
+    # print(twomonth) 문제 없음
+    addmonth=twomonth+month_days[idx]-int(couple_day)+1 # 확보한 2개월 치에 1일이 포함된 달에 1일 이후의 날들을 더해준다.
+    # print(addmonth) 문제 없음
+    adddays=100-addmonth # 이렇게 하면 100일이 속한 달에 며칠이 지나야 100일이 되는지 알 수 있다.
+    # print(adddays) 문제 없음
+    # 만약 adddays가 1일이 속한 달에서 3개월 증가한 달의 총 일수보다 높다면 100일이 속한 달은 1일이 속한 달에 4개월 증가한 달이다. 이 경우에는 1일과 100일의 년도가 바뀐다.
+    if adddays>month_days[idx+3-12]:
+        onehundreddays=adddays-month_days[idx+3-12]
+        onehundredmonth=int(couple_month)+4-12 # 연도가 바뀌니 다시 1월부터 시작하기 위해 12를 빼준다.
+        onehundredyear=int(couple_year)+1
+    else:
+        onehundreddays=adddays
+        onehundredmonth=int(couple_month)+3-12 # 연도가 바뀌니 다시 1월부터 시작하기 위해 12를 빼준다.
+        onehundredyear=int(couple_year)+1
+else:
+    twomonth=sum(month_days[0:2]) # 3개월이 증가하든 4개월이 증가하든 1일의 다음 두 달은 확실하게 증가하니 우선 수치를 확보.
+    # print(twomonth) 문제 없음
+    addmonth=twomonth+month_days[idx]-int(couple_day)+1 # 확보한 2개월 치에 1일이 포함된 달에 1일 이후의 날들을 더해준다.
+    # print(addmonth) 문제 없음
+    adddays=100-addmonth # 이렇게 하면 100일이 속한 달에 며칠이 지나야 100일이 되는지 알 수 있다.
+    # print(adddays) 문제 없음
+    # 만약 adddays가 1일이 속한 달에서 3개월 증가한 달의 총 일수보다 높다면 100일이 속한 달은 1일이 속한 달에 4개월 증가한 달이다. 이 경우에는 1일과 100일의 년도가 바뀐다.
+    if adddays>month_days[idx+3-12]:
+        onehundreddays=adddays-month_days[idx+3-12]
+        onehundredmonth=int(couple_month)+4-12 # 연도가 바뀌니 다시 1월부터 시작하기 위해 12를 빼준다.
+        onehundredyear=int(couple_year)+1
+    else:
+        onehundreddays=adddays
+        onehundredmonth=int(couple_month)+3-12 # 연도가 바뀌니 다시 1월부터 시작하기 위해 12를 빼준다.
+        onehundredyear=int(couple_year)+1
+print(str(onehundredyear)+'년',str(onehundredmonth)+'월',str(onehundreddays)+'일이 100일입니다! 준비하세요~')
+```
