@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "pype 6주차 과제 코드"
-date:   2021-08-24 14:20:59 +0900
+date:   2021-08-24 14:20:58 +0900
 author: Namnani
 categories: pype, python, boost-course
 tags: pype, python, boost-course
